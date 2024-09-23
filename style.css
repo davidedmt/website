@@ -1,0 +1,135 @@
+/* Base styles for mobile-first approach */
+body {
+    margin: 0;
+    font-family: 'Cardo', serif;
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+/* Page container with max-width and dynamic width for default (mobile) layout */
+.container {
+    max-width: 800px;
+    width: 85%;
+    margin: 0 auto;        /* Center the container */
+}
+
+/* Header styling with increased top margin and white background */
+header {
+    text-align: center;
+    background-color: #fff;
+    color: #000;
+    padding: 20px 0;
+    margin-top: 30px;
+}
+
+h1, h2, h3 {
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+}
+
+h1 {
+    font-size: 2.7rem;
+}
+
+h2 {
+    font-size: 1.7rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+}
+
+
+p {
+    text-align: justify;
+}
+
+/* Mobile Navbar */
+nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    color: #000;
+    padding: 10px;
+    gap: 20px;
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
+}
+
+.nav-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Center the icons inside navbar links */
+nav a {
+    display: flex;           /* Apply flexbox to center the content */
+    justify-content: center; /* Horizontally center the content */
+    align-items: center;     /* Vertically center the content */
+    color: #000;
+    text-transform: uppercase;
+    font-family: 'Lato', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1rem;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+}
+
+/* Style the icon */
+.icon {
+    width: 25px;              /* Reduced icon size (was 40px) */
+    height: 25px;
+}
+
+/* Larger screens (desktops) */
+@media (min-width: 1024px) {
+    /* Adjust container width for larger screens */
+    .container {
+        width: 80%;           /* 80% width for larger screens */
+    }
+
+    /* Header with increased top margin */
+    header {
+        margin-top: 50px;   /* Increased top margin for larger screens */
+    }
+
+    /* Navbar for larger screens: Flex groups to divide links */
+    nav {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 15px 50px;
+        align-items: center;
+        border-top: 2px solid #000; /* Black top border */
+        border-bottom: 2px solid #000; /* Black bottom border */
+    }
+
+    /* Group styling remains the same */
+    .nav-group {
+        gap: 20px;  /* Gap between the items */
+    }
+
+    /* Reset alignment for larger screens */
+    .nav-left {
+        justify-content: flex-start; /* Align first group to the left */
+    }
+
+    .nav-right {
+        justify-content: flex-end;   /* Align second group to the right */
+    }
+}
+
+/* Footer styles */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+    font-size: 0.9rem;  /* Reduced footer text size (was 1.2rem) */
+}
