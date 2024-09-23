@@ -1,5 +1,6 @@
 /* Base styles for mobile-first approach */
 body {
+    text-underline-offset: 5px;
     margin: 0;
     font-family: 'Cardo', serif;
     font-size: 18px;
@@ -12,6 +13,7 @@ body {
     width: 85%;
     margin: 0 auto;        /* Center the container */
 }
+
 
 /* Header styling with increased top margin and white background */
 header {
@@ -43,6 +45,10 @@ h3 {
 p {
     text-align: justify;
 }
+
+u {
+  border-bottom: 1px solid black;
+}​
 
 /* Mobile Navbar */
 nav {
