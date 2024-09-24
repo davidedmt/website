@@ -1,5 +1,6 @@
 /* Base styles for mobile-first approach */
 body {
+    text-underline-offset: 0.4em;
     margin: 0;
     font-family: 'Cardo', serif;  /* Use Cardo for the body text */
     font-size: 18px;              /* Reduced body font size (was 20px) */
