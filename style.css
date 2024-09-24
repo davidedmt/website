@@ -2,47 +2,47 @@
 body {
     text-underline-offset: 0.4em;
     margin: 0;
-    font-family: 'Cardo', serif;  /* Use Cardo for the body text */
-    font-size: 18px;              /* Reduced body font size (was 20px) */
-    line-height: 1.7;             /* Reduced line height for better readability */
+    font-family: 'Cardo', serif;
+    font-size: 18px;
+    line-height: 1.7;
 }
 
 /* Page container with max-width and dynamic width for default (mobile) layout */
 .container {
-    max-width: 800px;      /* Maximum width of 800px */
-    width: 85%;            /* 85% width for mobile */
+    max-width: 800px;
+    width: 85%;
     margin: 0 auto;        /* Center the container */
 }
 
 /* Header styling with increased top margin and white background */
 header {
     text-align: center;
-    background-color: #fff;  /* White background */
-    color: #000;             /* Black text */
+    background-color: #fff;
+    color: #000;
     padding: 20px 0;
-    margin-top: 30px;        /* Top margin for default layout */
+    margin-top: 30px;
 }
 
 h1, h2, h3 {
-    font-family: 'Lato', sans-serif;  /* Use Lato for headings */
-    font-weight: 700;                 /* Bold headings */
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
 }
 
 h1 {
-    font-size: 2.7rem;  /* Reduced font size for main heading (was 2.8rem) */
+    font-size: 2.7rem;
 }
 
 h2 {
-    font-size: 1.7rem;    /* Reduced font size for subheadings (was 2.3rem) */
+    font-size: 1.7rem;
 }
 
 h3 {
-    font-size: 1.5rem;  /* Reduced font size for smaller headings (was 1.9rem) */
+    font-size: 1.5rem;
 }
 
 /* Justify paragraph text */
 p {
-    text-align: justify;  /* Justify text in paragraph elements */
+    text-align: justify;
 }
 
 /* Mobile Navbar: centered, with black lines on top and bottom */
@@ -51,12 +51,12 @@ nav {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #fff;   /* White background */
-    color: #000;              /* Black text */
+    background-color: #fff;
+    color: #000;
     padding: 10px;
     gap: 20px;
-    border-top: 2px solid #000; /* Black top border */
-    border-bottom: 2px solid #000; /* Black bottom border */
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
 }
 
 .nav-group {
@@ -72,8 +72,8 @@ nav a {
     align-items: center;     /* Vertically center the content */
     color: #000;             /* Black text */
     text-transform: uppercase;
-    font-family: 'Lato', sans-serif; /* Use Lato for navbar links */
-    font-size: 13px;          /* Reduced font size for nav links (was 20px) */
+    font-family: 'Lato', sans-serif;
+    font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.1rem;
     padding: 5px 10px;
@@ -83,20 +83,20 @@ nav a {
 
 /* Style the icon */
 .icon {
-    width: 25px;              /* Reduced icon size (was 40px) */
+    width: 25px;
     height: 25px;
 }
 
 /* Larger screens (desktops) */
 @media (min-width: 1024px) {
-    /* Adjust container width for larger screens */
+
     .container {
-        width: 80%;           /* 80% width for larger screens */
+        width: 80%;
     }
 
     /* Header with increased top margin */
     header {
-        margin-top: 50px;   /* Increased top margin for larger screens */
+        margin-top: 50px;
     }
 
     /* Navbar for larger screens: Flex groups to divide links */
@@ -106,8 +106,8 @@ nav a {
         justify-content: space-between;
         padding: 15px 50px;
         align-items: center;
-        border-top: 2px solid #000; /* Black top border */
-        border-bottom: 2px solid #000; /* Black bottom border */
+        border-top: 2px solid #000;
+        border-bottom: 2px solid #000;
     }
 
     /* Group styling remains the same */
@@ -132,5 +132,5 @@ footer {
     text-align: center;
     padding: 10px 0;
     margin-top: 20px;
-    font-size: 0.9rem;  /* Reduced footer text size (was 1.2rem) */
+    font-size: 0.9rem;
 }
