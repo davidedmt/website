@@ -7,6 +7,15 @@ body {
     line-height: 1.7;
 }
 
+body a:link{
+    color: #000;
+    font-weight: bold;
+}
+
+body a:visited {
+    color: grey;
+}
+
 /* Page container with max-width and dynamic width for default (mobile) layout */
 .container {
     max-width: 800px;
@@ -79,6 +88,14 @@ nav a {
     padding: 5px 10px;
     text-align: center;
     text-decoration: none;
+}
+
+nav a:link{
+    color: #000;
+}
+
+nav a:visited{
+    color: #000;
 }
 
 /* Style the icon */
