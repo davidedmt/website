@@ -104,6 +104,21 @@ nav a:visited{
     height: 25px;
 }
 
+code {
+  padding: .2rem .2rem;
+  margin: 0 .2rem;
+  font-size: 90%;
+  white-space: wrap-flow;
+  background: #F1F1F1;
+  border: 1px solid #E1E1E1;
+  border-radius: 4px; }
+pre > code {
+  display: block;
+  padding: 1rem 1rem;
+  white-space:pre;
+  overflow:auto;
+}
+
 /* Larger screens (desktops) */
 @media (min-width: 1024px) {
 
