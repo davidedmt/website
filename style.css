@@ -23,6 +23,25 @@ body a:visited {
     margin: 0 auto;        /* Center the container */
 }
 
+/* Image container styles */
+.image-container {
+    text-align: center;          /* Center the image and the caption */
+    margin: 20px 0;              /* Add spacing around the images */
+}
+
+.image {
+    max-width: 100%;             /* Make the image responsive */
+    height: auto;                /* Maintain aspect ratio */
+}
+
+.caption {
+    font-family: 'Cardo', serif; /* Use the same serif font as the body */
+    color: #6c757d;              /* Set the caption color to grey (#6c757d) */
+    font-size: 14px;             /* Caption font size */
+    margin-top: 10px;            /* Add space between the image and the caption */
+    text-align: center;          /* Ensure the text is centered */
+}
+
 /* Header styling with increased top margin and white background */
 header {
     text-align: center;
