@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Davide Dametti</title>
+    <!-- Google Fonts for Lato and Cardo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital@0;1&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../style.css"> <!-- Link to the CSS file -->
+</head>
+<body>
+
+    <div class="container">
+
+        <header>
+            <h1>Davide Dametti</h1>
+        </header>
+
+        <nav>
+
+            <div class="nav-group nav-left">
+                <a href="../../index.html" class="navbar-link">Home</a>
+                <a href="../../blog/index.html" class="navbar-link">Blog</a>
+                <a href="../index.html" class="navbar-link"><u>Notes</u></a>
+            </div>
+
+
+            <div class="nav-group nav-right">
+                <!-- Mail icon  -->
+                <a href="mailto:davide.dametti@gmail.com" class="navbar-link">
+                    <img src="../../images/icons/envelope.svg" alt="Mail" class="icon">
+                </a>
+                <!-- Instagram icon  -->
+                <a href="https://instagram.com/davide.dmt" target="_blank" class="navbar-link">
+                    <img src="../../images/icons/instagram.svg" alt="Instagram" class="icon">
+                </a>
+                <!-- LinkedIn icon -->
+                <a href="https://linkedin.com/in/ddametti" target="_blank" class="navbar-link">
+                    <img src="../../images/icons/linkedin.svg" alt="LinkedIn" class="icon">
+                </a>
+            </div>
+
+        </nav>
+
+
+
+
+
+        <h2>Benchmarking in Time Series Forecasting</h2>
+        
+        
+<h3>Introduction</h3>
+
+<p>Before training any model in time series forecasting, it is essential to establish benchmarks that serve as a reference for performance comparison.</p>
+
+
+<p>These benchmarks are simple models that are intuitive, easy to implement, and quick to train. The primary objective is that any more complex model should at least outperform these benchmarks to justify its use.</p>
+
+<p>Benchmarking is a crucial initial step, as even the simplest models can be difficult to surpass. For instance, in the 5th edition of the Makridakis Competitions, only 48% of participating teams managed to outperform the naive prediction (which we define below), and only 7.5% of teams surpassed all benchmarks set by the competition organizers.</p>
+
+<p>Therefore, before investing time, money, and computational resources into complex models, it is important to ensure they deliver superior performance compared to these benchmarks.</p>
+
+<p>Below is a non-exhaustive list of simple benchmarks for time series forecasting; to illustrate them, we will use the <i>ausbeer</i> dataset, available in the <i>pmdarima</i> package.</p>
+
+<pre><code>import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from pmdarima.datasets import load_ausbeer
+</code></pre>
+
+<pre><code># Load the ausbeer dataset
+data = load_ausbeer()
+
+# Create a time index and convert to dataframe
+date_range = pd.date_range(start='1956-03-01', end='2009-03-01', freq='Q')
+
+df = pd.DataFrame(data, columns=["value"], index=date_range)
+
+# Train-test split
+cutoff_date = pd.Timestamp("2007-09-30")
+
+train = df[df.index < cutoff_date]
+test = df[df.index >= cutoff_date]
+</code></pre>
+
+
+<div class="image-container">
+    <img src="benchmark_models/ausbeer.png" alt="Description of image" class="image">
+    <figcaption class="caption">
+    Ausbeer: time series of the total quarterly beer production in Australia (in megalitres) from 1956:Q1 to 2008:Q3. <br>
+    </figcaption>
+</div>
+
+
+
+<h3>Benchmarks</h3>
+
+<h4>Historical Mean</h4>
+
+<p>As the name suggests, this method predicts future values as the mean of the historical time series.</p>
+
+<p>For time series with trends, it may be beneficial to use only recent data to compute the mean, as assigning equal weight to older and newer values might not be ideal.</p>
+
+<pre><code>historic_mean_pred = [train['value'].mean()] * len(test)
+</code></pre>
+
+<div class="image-container">
+    <img src="benchmark_models/benchmarks_mean.png" alt="Description of image" class="image">
+    <figcaption class="caption">
+    Prediction of the last year using the historical mean, along with the original data. <br>
+    The chart shows a detail of the last years only, from 2006 onward.
+    </figcaption>
+</div>
+
+
+
+<h4>Naive prediction</h4>
+
+<p>The naive benchmark predicts future values by simply assuming they will be equal to the last observed value.</p>
+
+<p>This approach may not be suitable for series with strong trends or seasonal cycles, as it does not capture such patterns.</p>
+
+<pre><code>naive_pred = [train['value'].iloc[-1]] * len(test)
+</code></pre>
+
+<div class="image-container">
+    <img src="benchmark_models/benchmarks_naive.png" alt="Description of image" class="image">
+    <figcaption class="caption">
+    Prediction of the last year using the naive method, along with the original data. <br>
+    The chart shows a detail of the last years only, from 2006 onward.
+    </figcaption>
+</div>
+
+
+
+<h4>Drift Method</h4>
+
+
+<p>The drift method extends the naive approach by incorporating a trend component. It assumes that future values will continue to change at the same average rate as observed in the past.</p>
+
+<p>This method is particularly useful for time series with consistent upward or downward trends. However, if the trend changes direction over time, the drift method may become inaccurate, as it assumes that past trends will continue indefinitely.</p>
+
+<p>Also, this method works by identifying the overall trend between the earliest and latest data points, then extending that trend forward to make future predictions. This means that, if the time series follows a seasonal pattern, it is important to ensure that the first and last observations belong to the same period in the cycle; otherwise, the inferred trend may be misleading.</p>
+
+
+<pre><code>from sktime.forecasting.naive import NaiveForecaster
+
+forecaster = NaiveForecaster(strategy="drift")
+forecaster.fit(train['1980-06-30':])
+
+drift_pred = forecaster.predict(fh=list(range(1, len(test) + 1)))
+</code></pre>
+
+<div class="image-container">
+    <img src="benchmark_models/benchmarks_drift.png" alt="Description of image" class="image">
+    <figcaption class="caption">
+    Prediction of the last year using the drift method, along with the original data. <br>
+    The chart shows a detail of the last years only, from 2006 onward.
+    </figcaption>
+</div>
+
+
+<h4>Seasonal Naive prediction</h4>
+
+<p>The seasonal naive benchmark is used for time series that exhibit repeating patterns over fixed time intervals, such as daily, weekly, or yearly cycles. It makes predictions by assuming that future values will be the same as those observed in the corresponding period of the previous cycle.</p>
+
+<pre><code>seasonality = 4
+seasonal_naive_pred = train['value'].iloc[-seasonality:].tolist()  
+seasonal_naive_pred = (seasonal_naive_pred * (len(test) // seasonality + 1))[:len(test)]
+</code></pre>
+
+<div class="image-container">
+    <img src="benchmark_models/benchmarks_seasonal.png" alt="Description of image" class="image">
+    <figcaption class="caption">
+    Prediction of the last year using the seasonal naive method, along with the original data. <br>
+    The chart shows a detail of the last years only, from 2006 onward.
+    </figcaption>
+</div>
+
+
+<h3>Other Benchmarks</h3>
+
+<p>While we have defined benchmarks as simple and easy-to-train models, other approaches can serve a similar purpose: providing quick predictions that are easy to implement and setting a baseline for model evaluation.</p>
+
+<p>Both Python and R offer automated tools that identify optimal parameters for popular modeling techniques through search algorithms. These can also function as benchmarks, as they are relatively fast to train and yield reliable forecasts.</p>
+
+<h4>AutoETS</h4>
+
+<p>The <i>AutoETS</i> class from the Python package <i>sktime</i> automatically selects the best model from the ETS family through parameter tuning.</p>
+
+<pre><code>from sktime.forecasting.ets import AutoETS
+</code></pre>
+
+<pre><code>auto_ets = AutoETS(auto=True, sp=4)  # sp=4 for seasonality of 4
+auto_ets.fit(train['value'])
+ets_pred = auto_ets.predict(test.index)
+</code></pre>
+
+<div class="image-container">
+    <img src="benchmark_models/benchmarks_autoets.png" alt="Description of image" class="image">
+    <figcaption class="caption">
+    Prediction of the last year using the model selected by AutoETS, along with the original data. <br>
+    The chart shows a detail of the last years only, from 2006 onward.
+    </figcaption>
+</div>
+
+
+
+<h4>AutoARIMA</h4>
+
+<p>Similarly, the <i>auto_arima</i> function from the Python package <i>pmdarima</i> finds the optimal parameters for an ARIMA model automatically.</p>
+
+<pre><code>arima_model = auto_arima(train['value'], seasonal=True, m=4, stepwise=True)
+
+n_test = len(test)
+arima_pred = arima_model.predict(n_periods=n_test)
+arima_pred_series = pd.Series(arima_pred, index=test.index)
+</code></pre>
+
+<div class="image-container">
+    <img src="benchmark_models/benchmarks_autoarima.png" alt="Description of image" class="image">
+    <figcaption class="caption">
+    Prediction of the last year using the model selected by AutoARIMA, along with the original data. <br>
+    The chart shows a detail of the last years only, from 2006 onward.
+    </figcaption>
+</div>
+
+
+
+<h3>References</h3>
+
+<ol>
+<li>The results of the M5 competition can be found <a href="https://www.sciencedirect.com/science/article/pii/S0169207021001874" target="_blank">here</a>.
+More on the Makridakis competitions can be found on the corresponding <a target="_blank" href="https://en.wikipedia.org/wiki/Makridakis_Competitions">Wikipedia page</a>.
+<li>The documentation for the sktime's AutoETS class is <a target="_blank" href="https://www.sktime.net/en/latest/api_reference/auto_generated/sktime.forecasting.ets.AutoETS.html">here</a>.
+<li>The documentation for the pmdarima's auto_arima function is <a target="_blank" href="https://alkaline-ml.com/pmdarima/modules/generated/pmdarima.arima.auto_arima.html">here</a>.
+</ol>
+
+
+
+
+<p><a href="#top">Back to top</a></p>
+
+
+    </div>
+
+</body>
+</html>
